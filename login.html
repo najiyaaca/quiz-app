@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modern Quiz Application</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-gradient-bg"></div>
+
+  <main class="app-shell">
+    <!-- Header / Global Nav -->
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-logo">QZ</span>
+        <span class="brand-text">Quiz Arena</span>
+      </div>
+      <nav class="app-nav">
+        <button class="nav-btn" data-view="daily-view">Daily Challenge</button>
+        <button class="nav-btn" data-view="learn-view">Learn</button>
+        <button class="nav-btn" data-view="leaderboard-view">Leaderboard</button>
+        <button class="nav-btn" data-view="login-view">Login</button>
+      </nav>
+    </header>
+
+    <!-- DASHBOARD PAGE -->
+    <section id="dashboard-view" class="view">
+      <div class="card dashboard-card">
+        <header class="dashboard-header">
+          <div>
+            <h1 class="card-title">Dashboard</h1>
+            <p class="card-subtitle">
+              Welcome back, <span id="dashboard-username" class="dashboard-username"></span>. Choose what you want to do today.
+            </p>
+          </div>
+        </header>
+
+        <div class="dashboard-grid">
+          <button class="dashboard-tile" data-action="learn">
+            <div class="dashboard-icon learn-icon">📚</div>
+            <div class="dashboard-tile-body">
+              <h2 class="dashboard-tile-title">Learn</h2>
+              <p class="dashboard-tile-text">
+                Study topics and learn concepts before attempting the quiz.
+              </p>
+            </div>
+          </button>
+
+          <button class="dashboard-tile" data-action="quiz">
+            <div class="dashboard-icon quiz-icon">🧠</div>
+            <div class="dashboard-tile-body">
+              <h2 class="dashboard-tile-title">Start Quiz</h2>
+              <p class="dashboard-tile-text">
+                Take a timed quiz with multiple-choice questions and instant feedback.
+              </p>
+            </div>
+          </button>
+
+          <button class="dashboard-tile" data-action="daily">
+            <div class="dashboard-icon daily-icon">⚡</div>
+            <div class="dashboard-tile-body">
+              <h2 class="dashboard-tile-title">Competition / Daily Challenge</h2>
+              <p class="dashboard-tile-text">
+                Join today&apos;s challenge and compete with others for the top spot.
+              </p>
+            </div>
+          </button>
+
+          <button class="dashboard-tile" data-action="leaderboard">
+            <div class="dashboard-icon leaderboard-icon">🏆</div>
+            <div class="dashboard-tile-body">
+              <h2 class="dashboard-tile-title">Leaderboard</h2>
+              <p class="dashboard-tile-text">
+                View the top players and highest scores in the arena.
+              </p>
+            </div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOGIN PAGE -->
+    <section id="login-view" class="view active-view">
+      <div class="card login-card">
+        <h1 class="card-title">Welcome to Quiz Arena</h1>
+        <p class="card-subtitle">Log in to compete, climb the leaderboard, and test your knowledge.</p>
+        <form id="login-form" class="login-form">
+          <div class="field-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required />
+          </div>
+          <div class="field-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required />
+          </div>
+          <button type="submit" class="btn primary-btn full-width">Login &amp; Start Quiz</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- DAILY CHALLENGE PAGE -->
+    <section id="daily-view" class="view">
+      <div class="card daily-card">
+        <h1 class="card-title">Daily Challenge</h1>
+        <p class="card-subtitle">
+          One special quiz every day. You only get a single attempt, so make it count!
+        </p>
+
+        <div class="daily-body">
+          <div id="daily-status-message" class="daily-status"></div>
+          <div id="daily-countdown-wrapper" class="daily-countdown-wrapper hidden">
+            <span class="daily-countdown-label">Next challenge unlocks in</span>
+            <span id="daily-countdown" class="daily-countdown-timer">24:00:00</span>
+          </div>
+        </div>
+
+        <div class="daily-actions">
+          <button id="daily-start-btn" class="btn primary-btn">Start Today&apos;s Challenge</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUIZ PAGE -->
+    <section id="quiz-view" class="view">
+      <div class="card quiz-card">
+        <header class="quiz-header">
+          <div class="quiz-meta">
+            <span id="question-progress" class="pill">Question 1 of 10</span>
+            <span id="question-timer" class="pill timer">15s</span>
+          </div>
+          <div class="quiz-score">
+            <span class="label">Live Score</span>
+            <span id="live-score" class="score-value">0 pts</span>
+          </div>
+        </header>
+
+        <div class="quiz-body">
+          <h2 id="question-text" class="question-text">Question text will appear here</h2>
+          <div id="options-container" class="options-grid">
+            <!-- Options generated by JS -->
+          </div>
+        </div>
+
+        <footer class="quiz-footer">
+          <div class="quiz-footer-left">
+            <span id="competition-status" class="competition-status">Competition Mode: Live</span>
+          </div>
+          <div class="quiz-footer-right">
+            <button id="next-btn" class="btn secondary-btn" disabled>Next Question</button>
+          </div>
+        </footer>
+      </div>
+    </section>
+
+    <!-- RESULT PAGE -->
+    <section id="result-view" class="view">
+      <div class="card result-card">
+        <h1 class="card-title">Your Results</h1>
+        <p class="card-subtitle">Great effort! Here’s how you did in this round.</p>
+
+        <div class="result-summary">
+          <div class="result-main-score">
+            <span class="result-label">Total Points</span>
+            <span id="final-score" class="result-value">0</span>
+          </div>
+          <div class="result-grid">
+            <div class="result-item">
+              <span class="result-label">Correct</span>
+              <span id="correct-count" class="result-value-small">0</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Wrong</span>
+              <span id="wrong-count" class="result-value-small">0</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Percentage</span>
+              <span id="percentage" class="result-value-small">0%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="result-actions">
+          <button id="restart-btn" class="btn primary-btn">Restart Quiz</button>
+          <button id="view-leaderboard-btn" class="btn ghost-btn">View Leaderboard</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEADERBOARD PAGE -->
+    <section id="leaderboard-view" class="view">
+      <div class="card leaderboard-card">
+        <div class="leaderboard-header">
+          <div>
+            <h1 class="card-title">Leaderboard</h1>
+            <p class="card-subtitle">Top players from recent games.</p>
+          </div>
+          <button id="back-to-login-btn" class="btn ghost-btn small-btn">Back to Login</button>
+        </div>
+
+        <div class="leaderboard-table-wrapper">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Username</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboard-body">
+              <!-- Filled by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARN PAGE -->
+    <section id="learn-view" class="view">
+      <div class="card learn-card">
+        <h1 class="card-title">Learn New Topics</h1>
+        <p class="card-subtitle">
+          Choose a topic to study, flip through flashcards, try practice questions, and then start the quiz.
+        </p>
+
+        <!-- Topic category grid -->
+        <div id="learn-topics-grid" class="learn-grid">
+          <!-- Filled by JavaScript -->
+        </div>
+
+        <!-- Topic detail view -->
+        <div id="learn-topic-detail" class="learn-topic-detail hidden">
+          <div class="learn-detail-header">
+            <button id="learn-back-btn" class="btn ghost-btn small-btn">&larr; Back to topics</button>
+            <div>
+              <h2 id="learn-topic-title" class="learn-title"></h2>
+              <p id="learn-topic-description" class="learn-body"></p>
+            </div>
+          </div>
+
+          <div class="learn-sections">
+            <section class="learn-section">
+              <h3 class="learn-section-title">Quick Explanation</h3>
+              <p id="learn-topic-explanation" class="learn-body"></p>
+            </section>
+
+            <section class="learn-section">
+              <h3 class="learn-section-title">Key Points</h3>
+              <ul id="learn-topic-keypoints" class="learn-keypoints"></ul>
+            </section>
+
+            <section class="learn-section">
+              <h3 class="learn-section-title">Simple Examples</h3>
+              <div id="learn-topic-examples" class="learn-examples"></div>
+            </section>
+
+            <section class="learn-section">
+              <h3 class="learn-section-title">Flashcards</h3>
+              <p class="learn-hint">Tap a card to reveal the answer.</p>
+              <div id="learn-topic-flashcards" class="flashcards-grid"></div>
+            </section>
+
+            <section class="learn-section">
+              <h3 class="learn-section-title">Practice Questions</h3>
+              <p class="learn-hint">Check your understanding before starting the quiz.</p>
+              <div id="learn-topic-practice" class="practice-list"></div>
+            </section>
+          </div>
+
+          <div class="learn-footer">
+            <button id="learn-start-quiz-btn" class="btn primary-btn">Start Quiz</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
